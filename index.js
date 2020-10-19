@@ -22,10 +22,12 @@ app.get('/', function (req, res) {
 });
 
 app.post('/registration', function(req, res){
+  let enteredReg = req.body.textbox;
   
+  res.render('home', {
+    registration: regInstance.regSelection(enteredReg)
+  })
 })
-
-
 
 let PORT = process.env.PORT || 3031;
 
