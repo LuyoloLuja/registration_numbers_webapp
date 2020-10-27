@@ -1,0 +1,14 @@
+language: node_js
+
+env:
+  - DATABASE_URL=postgresql://@localhost:5432/reg_test_db
+
+node_js:  
+  - 14.4.0
+
+before_script:
+  - psql -c 'create database  reg_test_db;' -U postgres
+  - psql -U postgres -d reg_test_db -a -f table.sql
+
+services:
+  - postgresql
