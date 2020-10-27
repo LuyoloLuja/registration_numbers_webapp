@@ -1,7 +1,8 @@
 <div class="container">
 
     <h1>REGISTRATION NUMBERS</h1>
-    <form action="/registration" method="POST">
+    <div class="content">
+        <form action="/registration" method="POST">
         <div class="enterReg">
             <label for="">Enter Registration Number:</label>
             <br><br>
@@ -9,11 +10,6 @@
             <button type="submit" name="button" class="addButton">Add</button>
         </div>
         <!-- <div class="errorMessages"></div> -->
-        <div class="reg-plate">
-            <label>Registration Numbers</label>
-            <br><br>
-            <div>{{registration}}</div>
-        </div>
 
         <div class="filer">
             <label for="">Filter Registration Numbers</label>
@@ -29,5 +25,15 @@
             <button style="float: none" class="filterButton">Filter</button>
         </div>
     </form>
+    <hr>
+
+    <div class="reg-plate">
+            <label>Registration Numbers</label>
+            
+            <ul>
+                <li>{{registration}}</li>
+            </ul>
+        </div>
+    </div>
 
 </div>

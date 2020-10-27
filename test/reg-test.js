@@ -8,3 +8,17 @@ const pool = new Pool({
 });
 
 let registration = Registrations(pool);
+
+describe('The registration numbers webapp', function(){
+    beforeEach(async function () {
+        // clean the tables before each test run
+        await pool.query("delete from regNumbers;");
+        // await pool.query("delete from greet_count;");
+    });
+
+    it('Should add a registration number', async function(){
+        
+    })
+
+        
+})

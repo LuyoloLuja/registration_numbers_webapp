@@ -1,9 +1,9 @@
 module.exports = function RegNumbers() {
     var registrationNumbers = [];
 
-    function regSelection(selectReg) {
+    async function regSelection(selectReg) {
         if (selectReg.startsWith("CA ") || selectReg.startsWith("CL ") || selectReg.startsWith("CJ ") || selectReg.startsWith("CAG ")) {
-            registrationNumbers.push(selectReg);
+            await registrationNumbers.push(selectReg);
         }
     }
 
