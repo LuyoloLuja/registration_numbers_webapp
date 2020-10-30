@@ -29,13 +29,11 @@ app.post('/reg_numbers', async function (req, res) {
   let enteredReg = req.body.userRegistration;
   enteredReg = enteredReg.toUpperCase();
 
-  if(enteredReg){
-    regInstance.enteredNumber(enteredReg);
+  if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
+
     await regInstance.settingReg(enteredReg);
     var registrationNumber = await regInstance.printRegistrations();
   }
-
-  console.log(await regInstance.printRegistrations());
 
   res.render('home', {
     registration: registrationNumber

@@ -1,10 +1,10 @@
 module.exports = function RegNumbers(pool) {
 
-    function enteredNumber(number) {
-        if (number.startsWith("CA ") || number.startsWith("CL ") || number.startsWith("CJ ")) {
-            return number;
-        }
-    }
+    // function enteredNumber(number) {
+    //     if (number.startsWith("CA ") || number.startsWith("CL ") || number.startsWith("CJ ")) {
+    //         return number;
+    //     }
+    // }
     async function settingReg(enteredReg) {
 
         enteredReg = enteredReg.toUpperCase();
@@ -51,7 +51,7 @@ module.exports = function RegNumbers(pool) {
     // }
 
     return {
-        enteredNumber,
+        // enteredNumber,
         settingReg,
         printRegistrations
         // filter,
