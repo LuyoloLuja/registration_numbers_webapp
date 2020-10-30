@@ -1,22 +1,25 @@
 module.exports = function RegNumbers(pool) {
 
-    async function appendRegNums(enteredReg) {
-        if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
-            let selectReg = await pool.query('SELECT * FROM registration_numbers WHERE registration = $1', [regSelection]);
+    function enteredNumber(number) {
+        if (number.startsWith("CA ") || number.startsWith("CL ") || number.startsWith("CJ ")) {
+            return number;
+        }
+    }
+    async function settingReg(enteredReg) {
 
-            if(selectReg.rowCount === 0){
-                await pool.query('INSERT INTO registration_numbers (registration) VALUES (enteredReg)');
-            }            
+        enteredReg = enteredReg.toUpperCase();
+
+        let selectReg = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [enteredReg]);
+
+        if (selectReg.rowCount === 0) {
+            await pool.query('INSERT INTO registration_numbers (registration) VALUES ($1)', [enteredReg]);
         }
     }
 
-    // function appendRegNums(registrations) {
-
-    //     for (var i = 0; i < registrations.length; i++) {
-    //         let currentReg = registrations[i];
-    //         return currentReg;
-    //     }
-    // }
+    async function printRegistrations() {
+        let storedRegistrations = await pool.query('SELECT registration FROM registration_numbers');
+        return storedRegistrations.rows;
+    }
 
     // function filter(regPlates) {
     //     var regFilter = [];
@@ -48,7 +51,9 @@ module.exports = function RegNumbers(pool) {
     // }
 
     return {
-        appendRegNums
+        enteredNumber,
+        settingReg,
+        printRegistrations
         // filter,
         // errorMessage
     }
