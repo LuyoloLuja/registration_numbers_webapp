@@ -41,11 +41,11 @@ app.post('/reg_numbers', async function (req, res) {
 
   if (!enteredReg) {
     req.flash('error', 'Please enter a registration number!');
-  } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
-    req.flash('error', 'Please enter a valid registration number!')
   } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
     await regInstance.settingReg(enteredReg);
     var registrationNumber = await regInstance.printRegistrations();
+  } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
+    req.flash('error', 'Please enter a valid registration number!')
   }
 
   res.render('home', {
@@ -56,7 +56,7 @@ app.post('/reg_numbers', async function (req, res) {
 app.get('/reg_numbers', async function (req, res) {
   // for filtering
 })
-app.get('/reset', async function(req, res){
+app.get('/reset', async function (req, res) {
   await regInstance.resetBtn()
   res.redirect('/')
 })

@@ -21,8 +21,7 @@
                     <option value="CAG">George</option>
                     <option value="CL">Stellenbosch</option>
                 </select>
-
-                <button style="float: none" class="filterButton">Filter</button>
+                <a href="/filter" style="float: none">Filter</a>
             </div>
         </form>
         <div class="resetBtn">
@@ -36,6 +35,7 @@
             <div class="error">
                 {{messages.error}}
             </div>
+            
             <ul>
                 {{#each registration}}
                 <li>{{registration}}</li>
