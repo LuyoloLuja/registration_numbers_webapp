@@ -4,12 +4,11 @@
     <div class="content">
         <form action="/reg_numbers" method="POST">
             <div class="enterReg">
-                <label for="">Enter Registration Number:</label>
+                <label for="">Enter Registration Number</label>
                 <br><br>
                 <input type="text" name="userRegistration" value="" class="reg-textbox">
                 <button type="submit" name="reg-btn" class="addButton">Add</button>
             </div>
-            <!-- <div class="errorMessages"></div> -->
 
             <div class="filer">
                 <label for="">Filter Registration Numbers</label>
@@ -18,7 +17,6 @@
                     <option value="">Select Town</option>
                     <option value="CA">Cape Town</option>
                     <option value="CJ">Paarl</option>
-                    <option value="CAG">George</option>
                     <option value="CL">Stellenbosch</option>
                 </select>
                 <a href="/filter" style="float: none">Filter</a>
@@ -35,7 +33,7 @@
             <div class="error">
                 {{messages.error}}
             </div>
-            
+
             <ul>
                 {{#each registration}}
                 <li>{{registration}}</li>
