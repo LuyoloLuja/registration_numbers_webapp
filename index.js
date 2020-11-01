@@ -44,7 +44,6 @@ app.post('/reg_numbers', async function (req, res) {
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
     req.flash('error', 'Please enter a valid registration number!')
   } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
-
     await regInstance.settingReg(enteredReg);
     var registrationNumber = await regInstance.printRegistrations();
   }
@@ -54,15 +53,13 @@ app.post('/reg_numbers', async function (req, res) {
   })
 })
 
-// app.get('/reg_numbers', async function (req, res) {
-
-//   let insertedNumbers = await regInstance.printRegistrations()
-
-//   res.render('home', {
-//     registration: insertedNumbers
-//   })
-// })
-
+app.get('/reg_numbers', async function (req, res) {
+  // for filtering
+})
+app.get('/reset', async function(req, res){
+  await regInstance.resetBtn()
+  res.redirect('/')
+})
 
 let PORT = process.env.PORT || 3031;
 

@@ -21,6 +21,10 @@ module.exports = function RegNumbers(pool) {
         return storedRegistrations.rows;
     }
 
+    async function resetBtn(){
+        await pool.query('DELETE FROM registration_numbers');
+    }
+
     // function filter(regPlates) {
     //     var regFilter = [];
 
@@ -51,9 +55,9 @@ module.exports = function RegNumbers(pool) {
     // }
 
     return {
-        // enteredNumber,
         settingReg,
-        printRegistrations
+        printRegistrations,
+        resetBtn
         // filter,
         // errorMessage
     }
