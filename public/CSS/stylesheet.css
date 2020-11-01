@@ -68,5 +68,9 @@ form label {
     padding: 15px 45px;
     margin: 5px 5px;
     border-radius: 10px;
-    /* display: none; */
+}
+.error {
+    padding: 0 45px;
+    color: #FF0000;
+    font-size: 20px;
 }

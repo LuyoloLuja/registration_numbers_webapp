@@ -2,6 +2,8 @@ let express = require('express');
 let app = express();
 const pg = require('pg');
 const bodyParser = require('body-parser')
+const flash = require('express-flash');
+const session = require('express-session');
 const RegInstance = require('./reg-numbers');
 
 const Pool = pg.Pool;
@@ -20,6 +22,14 @@ app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// initialise session middleware - flash-express depends on it
+app.use(session({
+  secret: "<add a secret string here>",
+  resave: false,
+  saveUninitialized: true
+}));
+app.use(flash());
+
 app.get('/', function (req, res) {
 
   res.render('home');
@@ -29,7 +39,11 @@ app.post('/reg_numbers', async function (req, res) {
   let enteredReg = req.body.userRegistration;
   enteredReg = enteredReg.toUpperCase();
 
-  if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
+  if (!enteredReg) {
+    req.flash('error', 'Please enter a registration number!');
+  } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
+    req.flash('error', 'Please enter a valid registration number!')
+  } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
 
     await regInstance.settingReg(enteredReg);
     var registrationNumber = await regInstance.printRegistrations();
