@@ -54,7 +54,11 @@ app.post('/reg_numbers', async function (req, res) {
 })
 
 app.get('/reg_numbers', async function (req, res) {
-  // for filtering
+  let storedReg = req.body.filter;
+
+
+
+  res.redirect('/')
 })
 app.get('/reset', async function (req, res) {
   await regInstance.resetBtn()

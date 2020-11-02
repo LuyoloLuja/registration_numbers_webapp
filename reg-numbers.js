@@ -16,26 +16,25 @@ module.exports = function RegNumbers(pool) {
         return storedRegistrations.rows;
     }
 
-    async function resetBtn(){
+    async function resetBtn() {
         await pool.query('DELETE FROM registration_numbers');
     }
 
-    // function filter(regPlates) {
-    //     var regFilter = [];
+    function filter(regPlates) {
+        var regFilter = [];
 
-    //     for (var i = 0; i < registrationNumbers.length; i++) {
-    //         var currentNumberPlate = registrationNumbers[i]
-    //         if (currentNumberPlate.startsWith(regPlates)) {
-    //             regFilter.push(currentNumberPlate);
-    //         }
-    //     }
-    //     return regFilter;
-    // }
+        if (regFilter.startsWith(regPlates)) {
+            // regFilter.push(currentNumberPlate);
+            // await pool.query('INSERT INTO ')            
+        }
+
+        return regFilter;
+    }
 
     return {
         settingReg,
         printRegistrations,
-        resetBtn
-        // filter
+        resetBtn,
+        filter
     }
 }
