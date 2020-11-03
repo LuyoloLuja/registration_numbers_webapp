@@ -46,6 +46,9 @@ app.post('/reg_numbers', async function (req, res) {
     var registrationNumber = await regInstance.printRegistrations();
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
     req.flash('error', 'Please enter a valid registration number!')
+  } // TO DO : CONDITION TO CHECK IF VALUE ALREADY EXISTS
+  else if(enteredReg !== 0){
+    req.flash('error', 'Registration number already exists!');
   }
 
   res.render('home', {
@@ -56,7 +59,8 @@ app.post('/reg_numbers', async function (req, res) {
 app.get('/reg_numbers', async function (req, res) {
   let storedReg = req.body.filter;
 
-
+  // let table = await pool.query('SELECT registration FROM registration_numbers JOIN available_towns ON registration_numbers.town = available_towns.id');
+  // console.log(table);
 
   res.redirect('/')
 })
