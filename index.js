@@ -59,11 +59,13 @@ app.post('/reg_numbers', async function (req, res) {
 app.get('/reg_numbers', async function (req, res) {
   let storedReg = req.body.filter;
 
-  // let table = await pool.query('SELECT registration FROM registration_numbers JOIN available_towns ON registration_numbers.town = available_towns.id');
-  // console.log(table);
+  let filtering = await regInstance.filter(storedReg);
 
-  res.redirect('/')
+  res.render('home', {
+    entered_reg: filtering
+  })
 })
+
 app.get('/reset', async function (req, res) {
   await regInstance.resetBtn()
   res.redirect('/')

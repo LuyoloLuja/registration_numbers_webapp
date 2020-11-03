@@ -9,7 +9,6 @@ module.exports = function RegNumbers(pool) {
         if (selectReg.rowCount === 0) {
             await pool.query('INSERT INTO registration_numbers (registration) VALUES ($1)', [enteredReg]);
         }
-        console.log(selectReg);
     }
 
     async function printRegistrations() {
@@ -23,15 +22,14 @@ module.exports = function RegNumbers(pool) {
 
     async function filter(regPlates) {
 
-        if (regFilter.startsWith(regPlates)) {
-
-            if (regPlates.startsWith('CA ')) {
-                await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 1]);
-            } else if (regPlates.startsWith('CL ')) {
-                await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 2]);
-            } else if (regPlates.startsWith('CJ ')) {
-                await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 3]);
-            }
+        if (regPlates.startsWith('CA ')) {
+            await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 1]);
+            let table = await pool.query('SELECT * FROM registration_numbers JOIN available_towns ON registration_numbers.town_entered = available_towns.id');
+            console.log(table)
+        } else if (regPlates.startsWith('CL ')) {
+            await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 2]);
+        } else if (regPlates.startsWith('CJ ')) {
+            await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 3]);
         }
 
     }
