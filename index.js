@@ -30,9 +30,11 @@ app.use(session({
 }));
 app.use(flash());
 
-app.get('/', function (req, res) {
-
-  res.render('home');
+app.get('/', async function (req, res) {
+const towns = await regInstance.getTowns()
+  res.render('home', {
+    town: towns
+  });
 });
 
 app.post('/reg_numbers', async function (req, res) {
@@ -51,8 +53,11 @@ app.post('/reg_numbers', async function (req, res) {
     req.flash('error', 'Registration number already exists!');
   }
 
+  let towns = await regInstance.getTowns()
+
   res.render('home', {
-    registration: registrationNumber
+    registration: registrationNumber,
+    town: towns
   })
 })
 
@@ -60,9 +65,12 @@ app.get('/reg_numbers', async function (req, res) {
   let storedReg = req.body.filter;
 
   let filtering = await regInstance.filter(storedReg);
+  // console.log(filtering);
+  const towns = await regInstance.getTowns();
 
   res.render('home', {
-    entered_reg: filtering
+    town_entered: filtering,
+    town: towns
   })
 })
 

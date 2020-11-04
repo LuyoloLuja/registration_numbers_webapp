@@ -2,26 +2,33 @@
 
     <h1>REGISTRATION NUMBERS</h1>
     <div class="content">
-        <form action="/reg_numbers" method="POST">
-            <div class="enterReg">
-                <label for="">Enter Registration Number</label>
-                <br><br>
-                <input type="text" name="userRegistration" value="" class="reg-textbox">
-                <button type="submit" name="reg-btn" class="addButton">Add</button>
-            </div>
+        <div class="forms">
+            <form action="/reg_numbers" method="POST">
+                <div class="enterReg">
+                    <label for="">Enter Registration Number</label>
+                    <br><br>
+                    <input type="text" name="userRegistration" value="" class="reg-textbox">
+                    <button type="submit" name="reg-btn" class="addButton">Add</button>
+                </div>
+            </form>
 
-            <div class="filer">
-                <label for="">Filter Registration Numbers</label>
-                <br><br>
-                <select class="drop-down" name="filter">
-                    <option value="">Select Town</option>
-                    <option value="CA">Cape Town</option>
-                    <option value="CJ">Paarl</option>
-                    <option value="CL">Stellenbosch</option>
-                </select>
-                <a href="/reg_numbers" style="float: none">Filter</a>
-            </div>
-        </form>
+            <form action="/reg_numbers" method="GET">
+                <div class="filer">
+                    <label for="">Filter Registration Numbers</label>
+                    <br><br>
+                    <select class="drop-down" name="filter">
+
+                        <option value="">Select Town</option>
+                        {{#each town}}
+                        <option value={{reg_code}}>{{town}}</option>
+                        {{/each}}
+                    </select>
+
+                    <button type="submit" class="">Filter</button>
+                </div>
+            </form>
+        </div>
+
         <div class="resetBtn">
             <a href="/reset">Reset</a>
         </div>

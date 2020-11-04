@@ -46,7 +46,7 @@ select {
     justify-content: space-around;
     padding: 25px;
 }
-form {
+.forms {
     display: flex;
     width: 100%;
     justify-content: space-around;
