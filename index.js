@@ -42,16 +42,14 @@ app.post('/reg_numbers', async function (req, res) {
   enteredReg = enteredReg.toUpperCase();
 
   let diplicateCheck = await regInstance.duplicateMessage(enteredReg);
-  var registrationNumber = await regInstance.printRegistrations();
-
+ 
   if (diplicateCheck !== 0) {
     req.flash('info', 'Registration number already exists!');
-    registrationNumber
   } else if (!enteredReg) {
     req.flash('error', 'Please enter a registration number!');
   } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
     await regInstance.settingReg(enteredReg);
-    registrationNumber
+    var registrationNumber = await regInstance.printRegistrations();
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
     req.flash('error', 'Please enter a valid registration number!');  
   }
