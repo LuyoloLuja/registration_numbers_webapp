@@ -15,14 +15,12 @@ describe('The registration numbers webapp', function () {
     beforeEach(async function () {
         // clean the tables before each test run
         await pool.query("delete from registration_numbers;");
-        // await pool.query("delete from greet_count;");
     });
 
     describe('settingReg()', async function () {
         it('Should add a registration number', async function () {
-            let actual = await registration.settingReg("CA 123");
-            let expected = true;
-            assert.strictEqual(actual, expected);
+            
+            assert.equal(await registration.settingReg("CA 123"), true);
         })
     })
 
@@ -33,16 +31,8 @@ describe('The registration numbers webapp', function () {
             await registration.settingReg("CL 123");
             await registration.settingReg("CJ 123");
 
-            let actual = await registration.filter(1);
-            console.log(actual);
-
-            let expected = [{"registration":"CA 123", "town_entered":1}];
-            
-            assert.deepStrictEqual(actual, expected);
+            assert.deepEqual(await registration.filter(1), [{"registration":"CA 123", "town_entered":1}]);
         })
     })
-
-
-
 
 })

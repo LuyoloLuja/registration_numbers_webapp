@@ -31,7 +31,7 @@ app.use(session({
 app.use(flash());
 
 app.get('/', async function (req, res) {
-const towns = await regInstance.getTowns()
+  const towns = await regInstance.getTowns()
   res.render('home', {
     town: towns
   });
@@ -41,19 +41,22 @@ app.post('/reg_numbers', async function (req, res) {
   let enteredReg = req.body.userRegistration;
   enteredReg = enteredReg.toUpperCase();
 
-  if (!enteredReg) {
+  let diplicateCheck = await regInstance.duplicateMessage(enteredReg);
+  var registrationNumber = await regInstance.printRegistrations();
+
+  if (diplicateCheck !== 0) {
+    req.flash('info', 'Registration number already exists!');
+    registrationNumber
+  } else if (!enteredReg) {
     req.flash('error', 'Please enter a registration number!');
   } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
     await regInstance.settingReg(enteredReg);
-    var registrationNumber = await regInstance.printRegistrations();
+    registrationNumber
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
-    req.flash('error', 'Please enter a valid registration number!')
-  } // TO DO : CONDITION TO CHECK IF VALUE ALREADY EXISTS
-  else if(enteredReg !== 0){
-    req.flash('error', 'Registration number already exists!');
+    req.flash('error', 'Please enter a valid registration number!');  
   }
 
-  let towns = await regInstance.getTowns()
+  let towns = await regInstance.getTowns();
 
   res.render('home', {
     registration: registrationNumber,
@@ -62,14 +65,13 @@ app.post('/reg_numbers', async function (req, res) {
 })
 
 app.get('/reg_numbers', async function (req, res) {
-  let storedReg = req.body.filter;
+  const towns = await regInstance.getTowns();
+  let storedReg = req.query.filter;
 
   let filtering = await regInstance.filter(storedReg);
-  // console.log(filtering);
-  const towns = await regInstance.getTowns();
 
   res.render('home', {
-    town_entered: filtering,
+    registration: filtering,
     town: towns
   })
 })

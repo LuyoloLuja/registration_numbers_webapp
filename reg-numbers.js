@@ -15,6 +15,11 @@ module.exports = function RegNumbers(pool) {
         return false
     }
 
+    async function duplicateMessage(enteredReg){
+        let checkDuplicates = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [enteredReg]);
+        return checkDuplicates.rowCount;
+    }
+
     async function getTownId(code) {
         let result = await pool.query("SELECT id FROM available_towns WHERE reg_code = $1", [code]);
         return result.rows[0]["id"];
@@ -30,44 +35,28 @@ module.exports = function RegNumbers(pool) {
         return towns.rows;
     }
 
-    async function resetBtn() {
-        await pool.query('DELETE FROM registration_numbers');
-    }
-
     async function filter(regCode) {
         let registrationNumbers = await printRegistrations();
 
         if (regCode === "") {
             return registrationNumbers;
         }
-
-        let regList = [];
-
-        for (let i = 0; i < registrationNumbers.length; i++) {
-            if (registrationNumbers[i]["town_entered"] === regCode) {
-                regList.push(registrationNumbers[i])
-            }
+        else {
+            let selectedTown = await pool.query('SELECT registration FROM registration_numbers WHERE town_entered = $1', [regCode])
+            return selectedTown.rows;
         }
-        return regList;
+    }
 
-
-        // if (regPlates.startsWith('CA ')) {
-        //     await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 1]);
-        //     let table = await pool.query('SELECT * FROM registration_numbers JOIN available_towns ON registration_numbers.town_entered = available_towns.id');
-        //     console.log(table)
-        // } else if (regPlates.startsWith('CL ')) {
-        //     await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 2]);
-        // } else if (regPlates.startsWith('CJ ')) {
-        //     await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1, $2)', [regPlates, 3]);
-        // }
-
+    async function resetBtn() {
+        await pool.query('DELETE FROM registration_numbers');
     }
 
     return {
         settingReg,
+        duplicateMessage,
         printRegistrations,
         getTowns,
-        resetBtn,
-        filter
+        filter,
+        resetBtn
     }
 }
