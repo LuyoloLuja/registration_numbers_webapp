@@ -5,17 +5,20 @@ module.exports = function RegNumbers(pool) {
         enteredReg = enteredReg.toUpperCase();
 
         let code = await getTownId(enteredReg.split(" ")[0]);
+        let duplicateCheck = duplicateMessage(enteredReg);
 
-        let selectReg = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [enteredReg]);
+        if (enteredReg.length <= 10 && duplicateCheck !== 0) {
+            let selectReg = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [enteredReg]);
 
-        if (selectReg.rowCount === 0) {
-            await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1,$2)', [enteredReg, code]);
-            return true;
+            if (selectReg.rowCount === 0) {
+                await pool.query('INSERT INTO registration_numbers (registration, town_entered) VALUES ($1,$2)', [enteredReg, code]);
+                return true;
+            }
+            return false;
         }
-        return false
     }
 
-    async function duplicateMessage(enteredReg){
+    async function duplicateMessage(enteredReg) {
         let checkDuplicates = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [enteredReg]);
         return checkDuplicates.rowCount;
     }

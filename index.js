@@ -42,8 +42,9 @@ app.post('/reg_numbers', async function (req, res) {
   enteredReg = enteredReg.toUpperCase();
 
   let diplicateCheck = await regInstance.duplicateMessage(enteredReg);
- 
-  if (diplicateCheck !== 0) {
+  if(enteredReg.length > 10){
+    req.flash('error', 'Registration number is too long!')
+  } else if (diplicateCheck !== 0) {
     req.flash('info', 'Registration number already exists!');
   } else if (!enteredReg) {
     req.flash('error', 'Please enter a registration number!');
