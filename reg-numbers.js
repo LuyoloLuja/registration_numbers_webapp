@@ -5,7 +5,7 @@ module.exports = function RegNumbers(pool) {
         enteredReg = enteredReg.toUpperCase();
 
         let code = await getTownId(enteredReg.split(" ")[0]);
-        let duplicateCheck = duplicateMessage(enteredReg);
+        let duplicateCheck = await duplicateMessage(enteredReg);
 
         if (enteredReg.length <= 10 && duplicateCheck !== 0) {
             let selectReg = await pool.query('SELECT registration FROM registration_numbers WHERE registration = $1', [enteredReg]);
