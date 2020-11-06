@@ -94,11 +94,6 @@ a:hover {
     color: #FF0000;
     font-size: 20px;
 }
-.info {
-    padding: 0 45px;
-    color: #ED8C32;
-    font-size: 20px;
-}
 .success, .reset {
     padding: 0 45px;
     color: #468723;

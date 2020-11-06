@@ -14,9 +14,19 @@
 
             <div class="example">
                 <ul>
-                    <li>'CA 123'</li>
-                    <li>'CL 456'</li>
-                    <li>'CJ 789'</li>
+                    <li>'CA 123456'</li>
+                    <li>'CL 123456'</li>
+                    <li>'CJ 123456'</li>
+                </ul>
+                <ul>
+                    <li>'CA 123-456'</li>
+                    <li>'CL 123-456'</li>
+                    <li>'CJ 123-456'</li>
+                </ul>
+                <ul>
+                    <li>'CA 123 456'</li>
+                    <li>'CL 123 456'</li>
+                    <li>'CJ 123 456'</li>
                 </ul>
             </div>
 
@@ -38,10 +48,7 @@
         </div>
 
         <div class="resetBtn">
-            {{!-- <a href="/reset">Reset</a> --}}
-            <form action="/reg_numbers" method="GET">
-                <button type="submit" class="" name="reset">Filter</button>
-            </form>
+            <a href="/reg_numbers">Reset</a>
         </div>
         <br>
         <hr>
@@ -50,9 +57,6 @@
             <br>
             <div class="error">
                 {{messages.error}}
-            </div>
-            <div class="info">
-                {{messages.info}}
             </div>
             <div class="success">
                 {{messages.success}}

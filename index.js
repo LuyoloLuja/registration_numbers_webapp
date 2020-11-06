@@ -45,11 +45,11 @@ app.post('/reg_numbers', async function (req, res) {
   if(enteredReg.length > 10){
     req.flash('error', 'Registration number is too long!')
   } else if (diplicateCheck !== 0) {
-    req.flash('info', 'Registration number already exists!');
+    req.flash('error', 'Registration number already exists!');
   } else if (!enteredReg) {
     req.flash('error', 'Please enter a registration number!');
   } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
-    req.flash('success', 'Registration Number successfully added to the database')
+    req.flash('success', 'Registration number successfully added to the database')
     await regInstance.settingReg(enteredReg);
     var registrationNumber = await regInstance.printRegistrations();
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
@@ -75,14 +75,9 @@ app.get('/reg_numbers', async function (req, res) {
     town: towns
   })
 })
-
+// TO DO : FIX MY RESET BUTTON
 app.get('/reg_numbers', async function (req, res) {
-  
-  let reset = req.body.reset;
-  if(reset){
-    req.flash('reset', 'Database successfuly resetted')
-    await regInstance.resetBtn();
-  }
+  await regInstance.resetBtn();
   res.redirect('/')
 })
 
