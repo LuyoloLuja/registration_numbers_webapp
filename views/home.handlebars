@@ -38,7 +38,10 @@
         </div>
 
         <div class="resetBtn">
-            <a href="/reset">Reset</a>
+            {{!-- <a href="/reset">Reset</a> --}}
+            <form action="/reg_numbers" method="GET">
+                <button type="submit" class="" name="reset">Filter</button>
+            </form>
         </div>
         <br>
         <hr>
@@ -50,6 +53,12 @@
             </div>
             <div class="info">
                 {{messages.info}}
+            </div>
+            <div class="success">
+                {{messages.success}}
+            </div>
+            <div class="reset">
+                {{messages.reset}}
             </div>
 
             <ul>

@@ -49,6 +49,7 @@ app.post('/reg_numbers', async function (req, res) {
   } else if (!enteredReg) {
     req.flash('error', 'Please enter a registration number!');
   } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
+    req.flash('success', 'Registration Number successfully added to the database')
     await regInstance.settingReg(enteredReg);
     var registrationNumber = await regInstance.printRegistrations();
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
@@ -75,8 +76,13 @@ app.get('/reg_numbers', async function (req, res) {
   })
 })
 
-app.get('/reset', async function (req, res) {
-  await regInstance.resetBtn()
+app.get('/reg_numbers', async function (req, res) {
+  
+  let reset = req.body.reset;
+  if(reset){
+    req.flash('reset', 'Database successfuly resetted')
+    await regInstance.resetBtn();
+  }
   res.redirect('/')
 })
 
