@@ -40,7 +40,7 @@ module.exports = function RegNumbers(pool) {
     async function filter(regCode) {
         let registrationNumbers = await printRegistrations();
 
-        if (regCode === "") {
+        if (regCode === "all") {
             return registrationNumbers;
         }
         else {

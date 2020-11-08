@@ -68,12 +68,13 @@ app.get('/reg_numbers', async function (req, res) {
   let storedReg = req.query.filter;
   const towns = await regInstance.getTowns();
 
+  // if(storedReg !== true || storedReg !== 'all') {
+  //   req.flash('error', 'No registration numbers available! Please enter registration numbers.');
+  // }
+
   if (storedReg) {
     var filtering = await regInstance.filter(storedReg);
-  } else {
-    req.flash('error', 'No registration numbers available! Please enter registration numbers.');
   }
-
   res.render('home', {
     registration: filtering,
     town: towns
