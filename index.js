@@ -39,11 +39,13 @@ app.get('/', async function (req, res) {
 
 app.post('/reg_numbers', async function (req, res) {
   let enteredReg = req.body.userRegistration;
+  // let reset = req.body.reset;
+
   enteredReg = enteredReg.toUpperCase();
 
   let diplicateCheck = await regInstance.duplicateMessage(enteredReg);
-  if(enteredReg.length > 10){
-    req.flash('error', 'Registration number is too long!')
+  if (enteredReg.length > 10) {
+    req.flash('error', 'Registration number is too long. It should be less than 10!')
   } else if (diplicateCheck !== 0) {
     req.flash('error', 'Registration number already exists!');
   } else if (!enteredReg) {
@@ -53,8 +55,14 @@ app.post('/reg_numbers', async function (req, res) {
     await regInstance.settingReg(enteredReg);
     var registrationNumber = await regInstance.printRegistrations();
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
-    req.flash('error', 'Please enter a valid registration number!');  
+    req.flash('error', 'Please enter a valid registration number!');
   }
+
+  // TO DO : FLASH MESSAGE FOR RESET
+  // if(reset){
+  //   req.flash('success', 'Database successfuly resetted');
+  //   await regInstance.resetBtn();
+  // }
 
   let towns = await regInstance.getTowns();
 
@@ -75,10 +83,15 @@ app.get('/reg_numbers', async function (req, res) {
     town: towns
   })
 })
-// TO DO : FIX MY RESET BUTTON
-app.get('/reg_numbers', async function (req, res) {
+// TO DO : FLASH MESSAGE FOR RESET
+app.get('/reset', async function (req, res) {
+  // let reset = req.body.reset;
   await regInstance.resetBtn();
-  res.redirect('/')
+  // if(reset){
+  //   req.flash('success', 'Database successfuly resetted');
+  //   await regInstance.resetBtn();
+  // }
+  res.redirect('/');
 })
 
 let PORT = process.env.PORT || 3031;
