@@ -39,11 +39,10 @@ app.get('/', async function (req, res) {
 
 app.post('/reg_numbers', async function (req, res) {
   let enteredReg = req.body.userRegistration;
-  // let reset = req.body.reset;
 
   enteredReg = enteredReg.toUpperCase();
-
   let diplicateCheck = await regInstance.duplicateMessage(enteredReg);
+
   if (enteredReg.length > 10) {
     req.flash('error', 'Registration number is too long. It should be less than 10!')
   } else if (diplicateCheck !== 0) {
@@ -57,13 +56,6 @@ app.post('/reg_numbers', async function (req, res) {
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
     req.flash('error', 'Please enter a valid registration number!');
   }
-
-  // TO DO : FLASH MESSAGE FOR RESET
-  // if(reset){
-  //   req.flash('success', 'Database successfuly resetted');
-  //   await regInstance.resetBtn();
-  // }
-
   let towns = await regInstance.getTowns();
 
   res.render('home', {
@@ -73,24 +65,25 @@ app.post('/reg_numbers', async function (req, res) {
 })
 
 app.get('/reg_numbers', async function (req, res) {
-  const towns = await regInstance.getTowns();
   let storedReg = req.query.filter;
+  const towns = await regInstance.getTowns();
 
-  let filtering = await regInstance.filter(storedReg);
+  if (storedReg) {
+    var filtering = await regInstance.filter(storedReg);
+  } else {
+    req.flash('error', 'No registration numbers available! Please enter registration numbers.');
+  }
 
   res.render('home', {
     registration: filtering,
     town: towns
   })
 })
-// TO DO : FLASH MESSAGE FOR RESET
+
 app.get('/reset', async function (req, res) {
-  // let reset = req.body.reset;
   await regInstance.resetBtn();
-  // if(reset){
-  //   req.flash('success', 'Database successfuly resetted');
-  //   await regInstance.resetBtn();
-  // }
+  req.flash('success', 'Database successfuly resetted');
+
   res.redirect('/');
 })
 
