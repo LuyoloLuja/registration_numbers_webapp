@@ -19,23 +19,33 @@ describe('The registration numbers webapp', function () {
 
     describe('settingReg()', async function () {
         it('Should add a registration number from Cape Town', async function () {
-            
+
             assert.equal(await registration.settingReg("CA 123"), true);
         })
         it('Should add a registration number from Stellenbosch', async function () {
-            
+
             assert.equal(await registration.settingReg("CL 456"), true);
         })
         it('Should add a registration number from Paarl', async function () {
-            
+
             assert.equal(await registration.settingReg("CJ 789"), true);
         })
-        it('Should not make duplicates', async function(){
+        it('Should not make duplicates', async function () {
             await registration.settingReg("CA 123");
             await registration.settingReg("CA 123");
             await registration.settingReg("CA 123");
 
             assert.equal(1, await registration.duplicateMessage("CA 123"));
+        })
+    })
+
+    describe('getTowns()', async function () {
+        it('Should return all the entered registrations', async function () {
+            await registration.settingReg("CA 123");
+            await registration.settingReg("CL 123");
+            await registration.settingReg("CJ 123");
+
+            assert.deepEqual(await registration.getTowns(), [{ "id": 1, "reg_code": "CA", "town": "Cape Town" }, { "id": "2", "reg_code": "CL", "town": "Stellenbosch" }, { 'id': '3', 'reg_code': 'CJ', 'town': 'Paarl' }]);
         })
     })
 
@@ -46,7 +56,7 @@ describe('The registration numbers webapp', function () {
             await registration.settingReg("CL 123");
             await registration.settingReg("CJ 123");
 
-            assert.deepEqual(await registration.filter(1), [{"registration":"CA 123"}]);
+            assert.deepEqual(await registration.filter(1), [{ "registration": "CA 123" }]);
         })
         it('Should filter for Stellenbosch', async function () {
 
@@ -54,7 +64,7 @@ describe('The registration numbers webapp', function () {
             await registration.settingReg("CL 123");
             await registration.settingReg("CJ 123");
 
-            assert.deepEqual(await registration.filter(2), [{"registration":"CL 123"}]);
+            assert.deepEqual(await registration.filter(2), [{ "registration": "CL 123" }]);
         })
         it('Should filter for Paarl', async function () {
 
@@ -62,8 +72,7 @@ describe('The registration numbers webapp', function () {
             await registration.settingReg("CL 123");
             await registration.settingReg("CJ 123");
 
-            assert.deepEqual(await registration.filter(3), [{"registration":"CJ 123"}]);
+            assert.deepEqual(await registration.filter(3), [{ "registration": "CJ 123" }]);
         })
     })
-
 })
