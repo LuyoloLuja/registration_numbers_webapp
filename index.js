@@ -31,9 +31,12 @@ app.use(session({
 app.use(flash());
 
 app.get('/', async function (req, res) {
-  const towns = await regInstance.getTowns()
+  const towns = await regInstance.getTowns();
+  const regNumbers = await regInstance.printRegistrations();
+
   res.render('home', {
-    town: towns
+    town: towns,
+    registration: regNumbers
   });
 });
 
@@ -43,16 +46,18 @@ app.post('/reg_numbers', async function (req, res) {
   enteredReg = enteredReg.toUpperCase();
   let diplicateCheck = await regInstance.duplicateMessage(enteredReg);
 
+  await regInstance.settingReg(enteredReg);
+  let registrationNumber = await regInstance.printRegistrations();
+
   if (enteredReg.length > 10) {
-    req.flash('error', 'Registration number is too long. It should be less than 10!')
+    req.flash('error', 'Registration number is too long. It should be less than 10!');
+    await regInstance.printRegistrations();
   } else if (diplicateCheck !== 0) {
     req.flash('error', 'Registration number already exists!');
   } else if (!enteredReg) {
     req.flash('error', 'Please enter a registration number!');
   } else if (enteredReg.startsWith("CA ") || enteredReg.startsWith("CL ") || enteredReg.startsWith("CJ ")) {
     req.flash('success', 'Registration number successfully added to the database')
-    await regInstance.settingReg(enteredReg);
-    var registrationNumber = await regInstance.printRegistrations();
   } else if (!enteredReg.startsWith("CA ") || !enteredReg.startsWith("CL ") || !enteredReg.startsWith("CJ ")) {
     req.flash('error', 'Please enter a valid registration number!');
   }
